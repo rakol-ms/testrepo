@@ -48,15 +48,17 @@ steps:
       #!/bin/bash
       Deploy2ACI ()
       {
-          imageName="rakolacr.azurecr.io/$2:$2"
-          appName="launch-$2"
-          url="$(az container create --name $appName --resource-group rakol-rg --image $imageName --registry-login-server rakolacr.azurecr.io --registry-username rakolacr --registry-password $1  --dns-name-label $appName --ports 80 --query ipAddress.fqdn)"
+          imageName="rakolacr.azurecr.io/$1:$1"
+          appName="launch-$1"
+          url="$(az container create --name $appName --resource-group rakol-rg --image $imageName --registry-login-server rakolacr.azurecr.io --registry-username $servicePrincipalId --registry-password $servicePrincipalKey  --dns-name-label $appName --ports 80 --query ipAddress.fqdn)"
           echo "Url is at $url"
+          echo "SPN id is at $servicePrincipalId"
           echo "##vso[task.setvariable variable=launchAciUrl]$url"
       }
       
-      Deploy2ACI $1 $2
-    arguments: '$(acrPassword) $(Build.BuildId)'
+      Deploy2ACI $1
+    arguments: '$(Build.BuildId)'
+    addSpnToEnvironment: true
       
 - task: PowerShell@2
   displayName: Post launch URL to GitHub
