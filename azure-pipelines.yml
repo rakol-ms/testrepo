@@ -55,7 +55,7 @@ steps:
           echo "##vso[task.setvariable variable=launchAciUrl]$url"
       }
       
-      Deploy2ACI $1 $2
+      Deploy2ACI $1 $2 $3
     arguments: '$(Build.BuildId) $(servicePrincipalId) $(servicePrincipalKey)'
       
 - task: PowerShell@2
