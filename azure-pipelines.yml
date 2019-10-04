@@ -50,14 +50,14 @@ steps:
       {
           imageName="rakolacr.azurecr.io/$1:$1"
           appName="launch-$1"
-          url="$(az container create --name $appName --resource-group rakol-rg --image $imageName --registry-login-server rakolacr.azurecr.io --registry-username $2 --registry-password $3  --dns-name-label $appName --ports 80 --query ipAddress.fqdn)"
+          url="$(az container create --name $appName --resource-group rakol-rg --image $imageName --registry-login-server rakolacr.azurecr.io --registry-username $servicePrincipalId --registry-password $servicePrincipalKey  --dns-name-label $appName --ports 80 --query ipAddress.fqdn)"
           echo "Url is at $url"
           echo "SPN id is at $servicePrincipalId"
           echo "##vso[task.setvariable variable=launchAciUrl]$url"
       }
       
-      Deploy2ACI $1 $2 $3
-    arguments: '$(Build.BuildId) $servicePrincipalId $servicePrincipalKey'
+      Deploy2ACI $1
+    arguments: '$(Build.BuildId)'
     addSpnToEnvironment: true
       
 - task: PowerShell@2
