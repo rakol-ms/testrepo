@@ -6,8 +6,8 @@
 trigger:
   tags:
     include:
-      - prod
-      - stage
+      - prod*
+      - stage*
 pr:
   autoCancel: true
   branches:
