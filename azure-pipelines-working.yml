@@ -27,6 +27,9 @@ variables:
   DOCKER_BUILDKIT: 1
 
 steps:
+- task: LaunchToGithub@0
+  inputs:
+    gitHubConnection: 'launchgh'
 - script: draft create
 - script: export DOCKER_BUILDKIT=1
 #- script: echo 'Build kit value : $DOCKER_BUILDKIT'
